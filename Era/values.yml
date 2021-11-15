@@ -1,0 +1,37 @@
+# The Vector Kubernetes integration automatically defines a 
+# kubernetes_logs source that is made available to you. 
+# You do not need to define a log source. 
+transforms: 
+   parse_logs: 
+     type: remap 
+     inputs: ["kubernetes_logs"] 
+     source: | 
+       . = flatten(.) 
+   
+sinks: 
+  # Adjust as necessary.  
+  es_kube: 
+    type: elasticsearch 
+    inputs: ["parse_logs"] 
+    endpoint: ${ERASEARCH_HOST} 
+    index: kube_logs 
+    auth: 
+      user: "${ERASEARCH_USERNAME}" 
+      password: "${ERASEARCH_PASSWORD}" 
+      strategy: basic 
+    healthcheck: 
+      enabled: false 
+env: 
+   - name: ERASEARCH_USERNAME 
+     value: databricks 
+   - name: ERASEARCH_PASSWORD 
+     valueFrom: 
+        secretKeyRef: 
+          name: erapwd 
+          key: password 
+   - name: ERASEARCH_HOST 
+     value: https://databricks.c01.eradb.com:443
+
+
+#kubectl create secret generic eraPWD -n vector --from-literal password=f5891f429f36acb0c47ffa7240ebc3854664
+#helm upgrade --install --namespace vector --create-namespace vector timberio/vector-agent --values values.yaml      

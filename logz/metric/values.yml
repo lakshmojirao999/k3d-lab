@@ -1,0 +1,11 @@
+remoteWrite:
+    - url: https://listener.logz.io:8053  # The Logz.io Listener URL for your region, configured to use port **8052** for http traffic, or port **8053** for https traffic. 
+      bearerToken: pnhBLsnDbXXUdpjukwsLQGSJjEpfmdAm # The Logz.io Prometheus metrics account token
+      remoteTimeout: 30s
+      queueConfig:
+        batchSendDeadline: 5s  #default = 5s
+        maxShards: 10  #default = 1000
+        maxSamplesPerSend: 500 #default = 100
+        capacity: 10000  #default = 500
+externalLabels:
+  p8s_logzio_name: k3d-demo     

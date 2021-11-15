@@ -1,0 +1,50 @@
+#cloud-config
+groups:
+  - ubuntu: [root,sys]
+  - cloud-users
+
+users:
+  - default
+  - name: ubuntu
+    gecos: Ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    shell: /bin/bash
+    ssh_import_id: None
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDANmeK+hHNaYUU105614+mmGyVi3R3e48XzdKqaNGk58dF9+zE2RL4hQNX26wggTru5WXKPDOiIXhu/QG4nxihXy8r8AjCVYUY5CRr84tuW/Zj4OKUBIC2khQZdHPt43T+7S2xBseLqgm3ZbzlwmQXvAkbMM4hfYkk0aZ6wI6+8ZbMsMtRGirGmaK3w8TtCZ68fAWpmkipLzHObXwYFdoS3ghie//bUGh6jXRBj20ct8HarJs8wiKe0i8JJD9YS3daV/k+noJ2858vUVnQkRV+6oE4fDB+2m6epZB9EtP637p+1bum/9qhhGQzx/VOaASer4o79vNqrQj9G3obYBYnzRZtBWWre8WgxbgHgSxlHMzNw56v/eIlzvuOxSjcHMzv//OlXkOlIyOVq0eKBl0GyD3lclH01ea7Xbz7kGnZWVPaNjaluqOWbg00J48MniH8ZmAd/VxblL0UbH0j3ayQxKOdgPSaJqgZOrG8VtcbAmI6sKThn5lRiDVsq12H2bUsa2hBJaupqnF8zu1wlv//n1QJnmjQr5AgYKz7W+Jx5a4tDN9v5UKDQHOkU/IAWFnaNaNIb0qd37nGBV7xGs25PkOU1OhmtpWanAX0CphWN286OnbVTkCf5bTAyR8hp9wDp2ImySd6jC9qGSDleoMnn77wL0+gyW+zN0oOBl7OaQ== lakshmoji@trysapling.com
+package_update: true
+package_upgrade: true
+packages:
+  - avahi-daemon
+apt:
+  primary:
+    - arches: [default]
+      uri: http://us.archive.ubuntu.com/ubuntu/
+# or
+apt:
+  primary:
+    - arches: [default]
+      search:
+        - http://local-mirror.mydomain
+        - http://archive.ubuntu.com
+# or
+apt:
+  primary:
+    - arches: [default]
+      search_dns: True  
+packages:
+ - chef-workstation_21.10.640-1_amd64.deb
+   
+# bootcmd:
+#   - echo 192.168.1.130 us.archive.ubuntu.com >> /etc/hosts  
+
+runcmd:
+ - [ chef, -v] 
+# write_files:
+#   - content: |
+#     # custom
+#     alias update='sudo apt update && sudo apt upgrade && sudo apt dist-upgrade && sudo apt autoremove && sudo apt auto-clean'
+#     path: /etc/skel/.bashrc
+#     append: true
