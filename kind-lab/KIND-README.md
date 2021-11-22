@@ -84,3 +84,7 @@ k3d cluster delete my-cluster
 kind create cluster --name my-cluster
 
 kind delete cluster --name my-cluster
+
+# Install nginx ingress
+kubectl apply \
+    --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml

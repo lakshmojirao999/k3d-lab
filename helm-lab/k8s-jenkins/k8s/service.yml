@@ -16,6 +16,6 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: http
+    nodePort: 30000
     # If you set the `spec.type` field to `NodePort` and you want a specific port number,
     # you can specify a value in the `spec.ports[*].nodePort` field.
-    nodePort: 30080
